@@ -1,8 +1,8 @@
 ﻿namespace CidadeAlta.Domain.Models;
 
-public class Entity
+public abstract class Entity
 {
-    public Entity()
+    protected Entity()
     {
         Id = Guid.NewGuid();
     }

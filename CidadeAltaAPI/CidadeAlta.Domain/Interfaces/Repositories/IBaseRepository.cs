@@ -8,4 +8,5 @@ public interface IBaseRepository<T>
     T? Edit(T obj);
 
     IEnumerable<T> Get(Expression<Func<T, bool>> predicate, string[]? includes = null);
+    T? GetById(Guid id, string[]? includes = null);
 }

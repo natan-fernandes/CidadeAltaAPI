@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using CidadeAlta.Domain.Validators;
+using FluentValidation.Results;
 
 namespace CidadeAlta.Domain.Models;
 
@@ -9,9 +10,8 @@ public class CriminalCode : Entity
     {
         CreateDate = DateTime.UtcNow;
         UpdateDate = DateTime.UtcNow;
-        Validator = new CriminalCodeValidator();
     }
-
+    
     public Guid CreateUserId { get; set; }
     public virtual User CreateUser { get; set; } = null!;
 
@@ -29,6 +29,7 @@ public class CriminalCode : Entity
     public DateTime CreateDate { get; set; }
     public DateTime UpdateDate { get; set; }
 
-    [NotMapped] 
-    public CriminalCodeValidator Validator { get; set; }
+    public ValidationResult ValidationResult => new CriminalCodeValidator().Validate(this);
+    public bool IsValid => ValidationResult.IsValid;
+    public IEnumerable<string> Errors => ValidationResult.Errors.Select(x => x.ErrorMessage);
 }

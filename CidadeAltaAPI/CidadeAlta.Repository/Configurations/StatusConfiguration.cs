@@ -12,6 +12,6 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
 
         builder.Property(m => m.Name).IsRequired();
 
-        builder.ToTable("DefStatus");
+        builder.ToTable("Status");
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Linq.Expressions;
 using CidadeAlta.Domain.Interfaces.Repositories;
+using CidadeAlta.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CidadeAlta.Data.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : Entity
 {
     private readonly CidadeAltaContext _cidadeAltaContext;
 
@@ -33,6 +34,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         var query = GetEntityWithIncludes(includes);
         return query.AsNoTracking().Where(predicate);
+    }
+
+    public TEntity? GetById(Guid id, string[]? includes = null)
+    {
+        return Get(x => x.Id == id, includes).FirstOrDefault();
     }
 
     private IQueryable<TEntity> GetEntityWithIncludes(IReadOnlyList<string>? includes)

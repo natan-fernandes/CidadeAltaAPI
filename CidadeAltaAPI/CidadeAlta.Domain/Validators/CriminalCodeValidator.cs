@@ -12,5 +12,9 @@ public class CriminalCodeValidator : AbstractValidator<CriminalCode>
 
         RuleFor(x => x.Description)
             .NotEmpty().WithMessage("O código penal deve ter uma descrição");
+
+        RuleFor(x => x.StatusId)
+            .Must(x => Enum.GetValues(typeof(Domain.Enums.Status)).Cast<int>().Contains(x))
+            .WithMessage("O status definido é inválido");
     }
 }
