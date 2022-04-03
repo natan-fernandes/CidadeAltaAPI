@@ -6,7 +6,8 @@ namespace CidadeAlta.Data.Repositories;
 
 public class CriminalCodeRepository : BaseRepository<CriminalCode>, ICriminalCodeRepository
 {
-    public CriminalCodeRepository(CidadeAltaContext cidadeAltaContext) : base(cidadeAltaContext) { }
+    public CriminalCodeRepository(CidadeAltaContext cidadeAltaContext) 
+        : base(cidadeAltaContext) { }
 
     public CriminalCode? Get(Guid id)
     {

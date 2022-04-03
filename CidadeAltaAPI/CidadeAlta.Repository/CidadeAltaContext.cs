@@ -2,6 +2,7 @@
 using CidadeAlta.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
+// ReSharper disable UnusedMember.Global
 namespace CidadeAlta.Data;
 
 public sealed class CidadeAltaContext : DbContext

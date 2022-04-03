@@ -31,17 +31,16 @@ public class CriminalCodeService : ICriminalCodeService
         criminalCode.UpdateUserId = user.Id;
 
         criminalCode.StatusId = (int)Status.WaitingForApproval;
-
-        if (!criminalCode.IsValid)
-            return Task.FromResult(criminalCode);
-
-        _criminalCodeRepository.Add(criminalCode);
-
         criminalCode.Status = new Models.Status
         {
             Id = (int)Status.WaitingForApproval,
             Name = EnumHelper.GetEnumDescription(Status.WaitingForApproval)
         };
+
+        if (!criminalCode.IsValid)
+            return Task.FromResult(criminalCode);
+
+        _criminalCodeRepository.Add(criminalCode);
 
         return Task.FromResult(criminalCode);
     }
@@ -59,14 +58,16 @@ public class CriminalCodeService : ICriminalCodeService
         dBmodel = criminalCode;
         dBmodel.UpdateUserId = user.Id;
         dBmodel.UpdateDate = DateTime.UtcNow;
+        dBmodel.StatusId = criminalCode.StatusId;
+
+        if (!dBmodel.IsValid)
+            return Task.FromResult(dBmodel)!;
+
         dBmodel.Status = new Models.Status
         {
             Id = criminalCode.StatusId,
             Name = EnumHelper.GetEnumDescription((Status)criminalCode.StatusId)
         };
-
-        if (!dBmodel.IsValid)
-            return Task.FromResult(dBmodel)!;
 
         _criminalCodeRepository.Edit(dBmodel);
 

@@ -8,7 +8,6 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     public UserRepository(CidadeAltaContext cidadeAltaContext) 
         : base(cidadeAltaContext) { }
 
-
     public User? Get(string username, string password)
     {
         return Get(x => x.UserName == username 

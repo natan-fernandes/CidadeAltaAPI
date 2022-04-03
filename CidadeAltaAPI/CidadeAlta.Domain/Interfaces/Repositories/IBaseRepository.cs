@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMemberInSuper.Global
 namespace CidadeAlta.Domain.Interfaces.Repositories;
 
 public interface IBaseRepository<T>

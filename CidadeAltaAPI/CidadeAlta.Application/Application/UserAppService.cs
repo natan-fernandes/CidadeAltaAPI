@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CidadeAlta.Application.DTOs;
 using CidadeAlta.Application.Interfaces;
+using CidadeAlta.Application.Responses;
 using CidadeAlta.Domain.Interfaces.Services;
 using CidadeAlta.Domain.Models;
 
@@ -17,26 +18,23 @@ public class UserAppService : BaseAppService, IUserAppService
 
     public Task<UserDto?> Get(string userName, string password)
     {
-        var user = Mapper.Map<UserDto>(_userService.Get(userName, password));
-        if (user != null)
-            user.Password = string.Empty;
-        return Task.FromResult(user);
+        return Task.FromResult(Mapper.Map<UserDto?>(_userService.Get(userName, password)));
     }
 
-    public Task<UserDto?> Get(string userName)
+    public Task<ApiResponse<UserDto>> Add(UserDto user)
     {
-        var user = Mapper.Map<UserDto>(_userService.Get(userName));
-        if (user != null)
-            user.Password = string.Empty;
-        return Task.FromResult(user);
-    }
+        var savedUser = _userService.Add(Mapper.Map<User>(user));
 
-    public Task<UserDto?> Add(UserDto user)
-    {
-        var userDto = Mapper.Map<UserDto>(_userService.Add(Mapper.Map<User>(user)));
-        if (userDto != null)
-            userDto.Password = string.Empty;
-        return Task.FromResult(userDto);
+        var response = new ApiResponse<UserDto>
+        {
+            Dto = Mapper.Map<UserDto?>(savedUser),
+            Errors = savedUser?.Errors
+        };
+
+        if (response.Dto != null) //Ninguém precisa saber o hash da senha do usuário né?
+            response.Dto.Password = string.Empty;
+
+        return Task.FromResult(response);
     }
 
     public void Dispose()

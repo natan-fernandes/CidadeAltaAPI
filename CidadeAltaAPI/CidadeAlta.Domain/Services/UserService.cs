@@ -18,21 +18,34 @@ public class UserService : IUserService
     public User? Get(string userName, string password)
     {
         password = HashPassword(password);
-        return _userRepository.Get(userName, password);
+        var user = _userRepository.Get(userName, password);
+        if (user != null) //Ninguém precisa saber o hash da senha do usuário né?
+            user.Password = string.Empty;
+
+        return user;
     }
 
     public User? Get(string userName)
     {
-        return _userRepository.Get(userName);
+        var user = _userRepository.Get(userName);
+        if (user != null) //Ninguém precisa saber o hash da senha do usuário né?
+            user.Password = string.Empty;
+
+        return user;
     }
     
     public User? Add(User user)
     {
+        if (!user.IsValid)
+            return user;
+
         user.Password = HashPassword(user.Password);
 
-        return _userRepository.Get(user.UserName) == null 
-            ? _userRepository.Add(user) 
+        var addedUsed = _userRepository.Get(user.UserName) == null
+            ? _userRepository.Add(user)
             : null;
+
+        return addedUsed;
     }
 
     private static string HashPassword(string password)

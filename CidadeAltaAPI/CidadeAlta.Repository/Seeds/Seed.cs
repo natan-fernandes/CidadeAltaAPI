@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 namespace CidadeAlta.Data.Seeds;
 
 public static class Seed

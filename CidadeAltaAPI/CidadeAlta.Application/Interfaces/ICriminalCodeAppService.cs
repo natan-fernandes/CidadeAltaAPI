@@ -8,6 +8,7 @@ public interface ICriminalCodeAppService : IDisposable
     Task<ApiResponse<CriminalCodeDto>> Add(CriminalCodeDto criminalCode);
     Task<ApiResponse<CriminalCodeDto>?> Edit(CriminalCodeDto criminalCode);
     Task<bool> Remove(Guid id);
+
     Task<CriminalCodeDto?> Get(Guid id);
     Task<ApiPageResponse<CriminalCodeDto>> Get(int page, string? filter = null, string? orderBy = null);
 }

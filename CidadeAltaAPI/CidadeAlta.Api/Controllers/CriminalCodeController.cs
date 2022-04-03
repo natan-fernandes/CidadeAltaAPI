@@ -8,7 +8,7 @@ namespace CidadeAlta.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null!)]
     public class CriminalCodeController : ControllerBase
     {
         private readonly ICriminalCodeAppService _criminalCodeAppService;
@@ -26,7 +26,7 @@ namespace CidadeAlta.Api.Controllers
         /// <param name="orderBy">Coluna do banco para ordenar. (opcional)</param>
         /// <response code="200">Retorna os códigos penais</response>
         [HttpGet("/")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ApiPageResponse<>))]
         public async Task<ActionResult<ApiPageResponse<CriminalCodeDto>>> GetAll(int page = 0, string? filter = null, string? orderBy = null)
         {
             return Ok(await _criminalCodeAppService.Get(page, filter, orderBy));
@@ -40,8 +40,8 @@ namespace CidadeAlta.Api.Controllers
         /// <response code="200">Retorna o código penal</response>
         /// <response code="404">Retorna null se não foi encontrado</response>
         [HttpGet("/{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CriminalCodeDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = null!)]
         public async Task<ActionResult<CriminalCodeDto?>> Get(Guid id)
         {
             var criminalCode = await _criminalCodeAppService.Get(id);
@@ -58,8 +58,8 @@ namespace CidadeAlta.Api.Controllers
         /// <response code="422">Retorna um array de erros</response>
         [Authorize]
         [HttpPost("/add")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CriminalCodeDto))]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(string[]))]
         public async Task<ActionResult<ApiResponse<CriminalCodeDto>>> Add(CriminalCodeDto model)
         {
             var response = await _criminalCodeAppService.Add(model);
@@ -77,9 +77,9 @@ namespace CidadeAlta.Api.Controllers
         /// <response code="422">Retorna um array com erros</response>
         [Authorize]
         [HttpPatch("/edit")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CriminalCodeDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = null!)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(string[]))]
         public async Task<ActionResult<ApiResponse<CriminalCodeDto>>> Edit(CriminalCodeDto model)
         {
             var response = await _criminalCodeAppService.Edit(model);
@@ -98,8 +98,8 @@ namespace CidadeAlta.Api.Controllers
         /// <response code="404">Retorna false se não foi encontrado</response>
         [Authorize]
         [HttpDelete("/remove")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         public async Task<ActionResult<bool>> Remove(Guid id)
         {
             var response = await _criminalCodeAppService.Remove(id);

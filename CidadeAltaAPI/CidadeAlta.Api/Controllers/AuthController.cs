@@ -48,17 +48,20 @@ namespace CidadeAlta.Api.Controllers
         /// </summary>
         /// <param name="model">Objeto contendo usuário e senha</param>
         /// <response code="201">Retorna o objeto do usuário</response>
-        /// <response code="409">Retorna erro encontrado ao realizar o registro</response>
+        /// <response code="409">Retorna erro se o usuário já estiver cadastrado</response>
+        /// <response code="422">Retorna um array com erros de validação</response>
         [HttpPost("/register")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Type = typeof(string[]))]
         public async Task<ActionResult<dynamic>> Register([FromBody] UserDto model)
         {
-            var user = await _userAppService.Add(model);
-            if (user == null)
+            var response = await _userAppService.Add(model);
+            if (response.Dto == null)
                 return Conflict("Usuário já registrado");
-
-            return Created(string.Empty, user);
+            if (response.IsValid)
+                return Created(string.Empty, response.Dto);
+            return UnprocessableEntity(response.Errors);
         }
     }
 }
