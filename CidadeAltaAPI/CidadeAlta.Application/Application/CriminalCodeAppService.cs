@@ -26,9 +26,7 @@ public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
             Dto = Mapper.Map<CriminalCodeDto>(criminalCode),
             Errors = criminalCode.Errors
         };
-
-        response.Dto.Status = criminalCode.Status.Name;
-
+        
         return response;
     }
     

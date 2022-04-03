@@ -9,8 +9,8 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         ShouldMapProperty = arg => arg.GetMethod!.IsPublic || arg.GetMethod.IsAssembly;
-        CreateMap<CriminalCode, CriminalCodeDto>().ForMember(x => x.Status, m => m.MapFrom(a => a.Status.Name));
-        CreateMap<CriminalCodeDto, CriminalCode>().ForMember(x => x.Status, m => m.Ignore());
+        CreateMap<CriminalCodeDto, CriminalCode>().ReverseMap();
+        CreateMap<StatusDto, Status>().ReverseMap();
         CreateMap<UserDto, User>().ReverseMap();
     }
 }

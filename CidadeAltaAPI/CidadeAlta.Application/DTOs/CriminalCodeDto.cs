@@ -13,7 +13,7 @@ public class CriminalCodeDto : EntityDto
     public Guid? CreateUserId { get; set; }
     public Guid? UpdateUserId { get; set; }
     public int? StatusId { get; set; }
-    public string? Status { get; set; }
+    public StatusDto? Status { get; set; }
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
     public decimal? Penalty { get; set; }

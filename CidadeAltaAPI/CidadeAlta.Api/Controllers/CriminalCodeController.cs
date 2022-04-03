@@ -8,7 +8,7 @@ namespace CidadeAlta.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null!)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UnauthorizedResult))]
     public class CriminalCodeController : ControllerBase
     {
         private readonly ICriminalCodeAppService _criminalCodeAppService;
