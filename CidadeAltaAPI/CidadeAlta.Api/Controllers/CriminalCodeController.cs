@@ -19,40 +19,19 @@ namespace CidadeAlta.Api.Controllers
         }
 
         /// <summary>
-        /// Cria um novo código penal
+        /// Obtém todos os códigos penais.
         /// </summary>
-        /// <param name="model">Objeto contendo informações do código penal</param>
-        /// <response code="201">Retorna o código penal criado</response>
-        /// <response code="422">Retorna um array de erros</response>
-        [Authorize]
-        [HttpPost("/add")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<ActionResult<ApiResponse<CriminalCodeDto>>> Add(CriminalCodeDto model)
+        /// <param name="page">Número da página. O total de itens por página é 5</param>
+        /// <param name="filter">Filtro para qualquer coluna do banco. (opcional)</param>
+        /// <param name="orderBy">Coluna do banco para ordenar. (opcional)</param>
+        /// <response code="200">Retorna os códigos penais</response>
+        [HttpGet("/")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiPageResponse<CriminalCodeDto>>> GetAll(int page = 0, string? filter = null, string? orderBy = null)
         {
-            var response = await _criminalCodeAppService.Add(model);
-            if (response.IsValid)
-                return Created(string.Empty, response.Dto);
-            return UnprocessableEntity(response.Errors);
+            return Ok(await _criminalCodeAppService.Get(page, filter, orderBy));
         }
 
-        /// <summary>
-        /// Remove um código penal
-        /// </summary>
-        /// <param name="id">Id do código penal</param>
-        /// <response code="200">Retorna true se foi deletado</response>
-        /// <response code="404">Retorna false se não foi encontrado</response>
-        [Authorize]
-        [HttpDelete("/remove")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<bool>> Remove(Guid id)
-        {
-            var response = await _criminalCodeAppService.Remove(id);
-            if (response)
-                return Ok(response);
-            return NotFound(response);
-        }
 
         /// <summary>
         /// Obtem um código penal
@@ -70,7 +49,25 @@ namespace CidadeAlta.Api.Controllers
                 return Ok(criminalCode); //Não tem o found?
             return NotFound(criminalCode);
         }
-        
+
+        /// <summary>
+        /// Cria um novo código penal
+        /// </summary>
+        /// <param name="model">Objeto contendo informações do código penal</param>
+        /// <response code="201">Retorna o código penal criado</response>
+        /// <response code="422">Retorna um array de erros</response>
+        [Authorize]
+        [HttpPost("/add")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<ApiResponse<CriminalCodeDto>>> Add(CriminalCodeDto model)
+        {
+            var response = await _criminalCodeAppService.Add(model);
+            if (response.IsValid)
+                return Created(string.Empty, response.Dto);
+            return UnprocessableEntity(response.Errors);
+        }
+
         /// <summary>
         /// Edita um código penal
         /// </summary>
@@ -94,17 +91,21 @@ namespace CidadeAlta.Api.Controllers
         }
 
         /// <summary>
-        /// Obtém todos os códigos penais.
+        /// Remove um código penal
         /// </summary>
-        /// <param name="page">Número da página. O total de itens por página é 5</param>
-        /// <param name="filter">Filtro para qualquer coluna do banco. (opcional)</param>
-        /// <param name="orderBy">Coluna do banco para ordenar. (opcional)</param>
-        /// <response code="200">Retorna os códigos penais</response>
-        [HttpGet("/")]
+        /// <param name="id">Id do código penal</param>
+        /// <response code="200">Retorna true se foi deletado</response>
+        /// <response code="404">Retorna false se não foi encontrado</response>
+        [Authorize]
+        [HttpDelete("/remove")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiPageResponse<CriminalCodeDto>>> GetAll(int page = 0, string? filter = null, string? orderBy = null)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<bool>> Remove(Guid id)
         {
-            return Ok(await _criminalCodeAppService.Get(page, filter, orderBy));
+            var response = await _criminalCodeAppService.Remove(id);
+            if (response)
+                return Ok(response);
+            return NotFound(response);
         }
     }
 }
