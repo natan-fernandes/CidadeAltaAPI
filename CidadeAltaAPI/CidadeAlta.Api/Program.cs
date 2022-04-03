@@ -37,8 +37,8 @@ builder.Services.AddSwaggerGen(x =>
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "JWT Authorization header using the Bearer scheme." +
-                      "\r\nEnter 'Bearer' [space] and then your token in the text input below." +
-                      "\r\nExample: 'Bearer 1234'"
+                      "\r\n\r\nEnter 'Bearer' [space] and then your token in the text input below." +
+                      "\r\n\r\nExample: 'Bearer 1234'"
     });
 
     x.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -130,5 +130,7 @@ static void InjetarDependencias(WebApplicationBuilder wab)
     wab.Services.AddScoped<ICriminalCodeRepository, CriminalCodeRepository>();
     
     wab.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+    wab.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 }
 #endregion

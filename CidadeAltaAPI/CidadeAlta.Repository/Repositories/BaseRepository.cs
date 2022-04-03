@@ -30,6 +30,12 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             : null;
     }
 
+    public bool Remove(TEntity obj)
+    {
+        _cidadeAltaContext.Entry(obj).State = EntityState.Deleted;
+        return _cidadeAltaContext.SaveChanges() > 0;
+    }
+
     public IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate, string[]? includes = null)
     {
         var query = GetEntityWithIncludes(includes);

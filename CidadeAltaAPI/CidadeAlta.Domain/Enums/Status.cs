@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 
+// ReSharper disable UnusedMember.Global
 namespace CidadeAlta.Domain.Enums;
 
 public enum Status

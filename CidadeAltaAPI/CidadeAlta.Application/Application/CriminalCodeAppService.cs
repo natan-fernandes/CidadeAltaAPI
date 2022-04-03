@@ -1,5 +1,4 @@
-﻿using System.Transactions;
-using AutoMapper;
+﻿using AutoMapper;
 using CidadeAlta.Application.DTOs;
 using CidadeAlta.Application.Interfaces;
 using CidadeAlta.Application.Responses;
@@ -11,19 +10,15 @@ namespace CidadeAlta.Application.Application;
 public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
 {
     private readonly ICriminalCodeService _criminalCodeService;
-    public CriminalCodeAppService(IMapper mapper, ICriminalCodeService criminalCodeService) : base(mapper)
+
+    public CriminalCodeAppService(IMapper mapper, 
+        ICriminalCodeService criminalCodeService) : base(mapper)
     {
         _criminalCodeService = criminalCodeService;
     }
 
     public async Task<ApiResponse<CriminalCodeDto>> Add(CriminalCodeDto criminalCodeDto)
     {
-        //using (var transaction = new cidadealtacon)
-        //{
-
-        //    scope.Complete();
-        //}
-
         var criminalCode = await _criminalCodeService.Add(Mapper.Map<CriminalCode>(criminalCodeDto));
 
         var response = new ApiResponse<CriminalCodeDto>
@@ -31,8 +26,32 @@ public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
             Dto = Mapper.Map<CriminalCodeDto>(criminalCode),
             Errors = criminalCode.Errors
         };
+        response.Dto.Status = criminalCode.Status.Name;
 
         return response;
+    }
+    
+    public async Task<ApiResponse<CriminalCodeDto>?> Edit(CriminalCodeDto criminalCodeDto)
+    {
+        var criminalCode = await _criminalCodeService.Edit(Mapper.Map<CriminalCode>(criminalCodeDto));
+
+        var response = new ApiResponse<CriminalCodeDto>
+        {
+            Dto = Mapper.Map<CriminalCodeDto>(criminalCode),
+            Errors = criminalCode?.Errors
+        };
+
+        return response;
+    }
+
+    public Task<bool> Remove(Guid id)
+    {
+        return _criminalCodeService.Remove(id);
+    }
+
+    public async Task<CriminalCodeDto?> Get(Guid id)
+    {
+        return Mapper.Map<CriminalCodeDto>(await _criminalCodeService.Get(id));
     }
 
     public void Dispose()

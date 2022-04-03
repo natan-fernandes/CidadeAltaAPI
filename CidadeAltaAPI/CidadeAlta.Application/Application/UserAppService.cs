@@ -23,6 +23,14 @@ public class UserAppService : BaseAppService, IUserAppService
         return Task.FromResult(user);
     }
 
+    public Task<UserDto?> Get(string userName)
+    {
+        var user = Mapper.Map<UserDto>(_userService.Get(userName));
+        if (user != null)
+            user.Password = string.Empty;
+        return Task.FromResult(user);
+    }
+
     public Task<UserDto?> Add(UserDto user)
     {
         var userDto = Mapper.Map<UserDto>(_userService.Add(Mapper.Map<User>(user)));

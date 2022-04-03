@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using CidadeAlta.Domain.Validators;
+﻿using CidadeAlta.Domain.Validators;
 using FluentValidation.Results;
 
 namespace CidadeAlta.Domain.Models;

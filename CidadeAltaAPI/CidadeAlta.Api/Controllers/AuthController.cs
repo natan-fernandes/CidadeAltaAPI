@@ -23,8 +23,8 @@ namespace CidadeAlta.Api.Controllers
         /// Realiza o login de usuários
         /// </summary>
         /// <param name="model">Objeto contendo usuário e senha</param>
-        /// <reponse code="302">Retorna o objeto do usuário e token bearer</reponse>
-        /// <reponse code="404">Retorna erro encontrado</reponse>
+        /// <response code="302">Retorna o objeto do usuário e token bearer</response>
+        /// <response code="404">Retorna erro encontrado</response>
         [HttpPost("/login")]
         [ProducesResponseType(StatusCodes.Status302Found, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]

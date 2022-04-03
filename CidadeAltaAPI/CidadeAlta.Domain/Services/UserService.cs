@@ -20,6 +20,11 @@ public class UserService : IUserService
         password = HashPassword(password);
         return _userRepository.Get(userName, password);
     }
+
+    public User? Get(string userName)
+    {
+        return _userRepository.Get(userName);
+    }
     
     public User? Add(User user)
     {
