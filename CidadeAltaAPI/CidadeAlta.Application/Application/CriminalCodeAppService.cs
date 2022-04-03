@@ -54,6 +54,17 @@ public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
         return Mapper.Map<CriminalCodeDto>(await _criminalCodeService.Get(id));
     }
 
+    public async Task<ApiPageResponse<CriminalCodeDto>> Get(int page, string? filter = null, string? orderBy = null)
+    {
+        var criminalCodes = await _criminalCodeService.Get(page, out var totalCount, filter, orderBy);
+
+        return new ApiPageResponse<CriminalCodeDto>
+        {
+            Items = Mapper.Map<IList<CriminalCodeDto>>(criminalCodes),
+            TotalCount = totalCount
+        };
+    }
+
     public void Dispose()
     {
         _criminalCodeService.Dispose();

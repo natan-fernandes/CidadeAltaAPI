@@ -24,10 +24,12 @@ public class CriminalCodeService : ICriminalCodeService
 
     public Task<CriminalCode> Add(CriminalCode criminalCode)
     {
-        var user = _userService.Get(_httpContextAccessor.HttpContext!.User.Identity!.Name!)!;
+        criminalCode.Id = Guid.NewGuid();
 
+        var user = _userService.Get(_httpContextAccessor.HttpContext!.User.Identity!.Name!)!;
         criminalCode.CreateUserId = user.Id;
         criminalCode.UpdateUserId = user.Id;
+
         criminalCode.StatusId = (int)Status.WaitingForApproval;
 
         if (!criminalCode.IsValid)
@@ -74,6 +76,12 @@ public class CriminalCodeService : ICriminalCodeService
     public Task<CriminalCode?> Get(Guid id)
     {
         return Task.FromResult(_criminalCodeRepository.Get(id));
+    }
+
+    public Task<IList<CriminalCode>> Get(int page, out long totalCount, string? filter = null, string? orderBy = null)
+    {
+        totalCount = _criminalCodeRepository.GetCount();
+        return Task.FromResult(_criminalCodeRepository.Get(page, filter, orderBy));
     }
 
     public Task<bool> Remove(Guid id)

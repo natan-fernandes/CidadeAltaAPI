@@ -6,6 +6,9 @@ public interface ICriminalCodeRepository : IDisposable
 {
     CriminalCode? Add(CriminalCode criminalCode);
     CriminalCode? Edit(CriminalCode criminalCode);
-    CriminalCode? Get(Guid id);
     bool Remove(CriminalCode criminalCode);
+
+    long GetCount();
+    CriminalCode? Get(Guid id);
+    IList<CriminalCode> Get(int page, string? filter = null, string? orderBy = null);
 }

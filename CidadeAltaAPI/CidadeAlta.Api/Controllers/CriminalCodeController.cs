@@ -60,7 +60,7 @@ namespace CidadeAlta.Api.Controllers
         /// <param name="id">Id do código penal</param>
         /// <response code="200">Retorna o código penal</response>
         /// <response code="404">Retorna null se não foi encontrado</response>
-        [HttpGet("/")]
+        [HttpGet("/{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CriminalCodeDto?>> Get(Guid id)
@@ -91,6 +91,20 @@ namespace CidadeAlta.Api.Controllers
             if (response.IsValid)
                 return Ok(response.Dto);
             return UnprocessableEntity(response.Errors);
+        }
+
+        /// <summary>
+        /// Obtém todos os códigos penais.
+        /// </summary>
+        /// <param name="page">Número da página. O total de itens por página é 5</param>
+        /// <param name="filter">Filtro para qualquer coluna do banco. (opcional)</param>
+        /// <param name="orderBy">Coluna do banco para ordenar. (opcional)</param>
+        /// <response code="200">Retorna os códigos penais</response>
+        [HttpGet("/")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiPageResponse<CriminalCodeDto>>> GetAll(int page = 0, string? filter = null, string? orderBy = null)
+        {
+            return Ok(await _criminalCodeAppService.Get(page, filter, orderBy));
         }
     }
 }
