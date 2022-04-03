@@ -8,11 +8,6 @@ public class CriminalCodeRepository : BaseRepository<CriminalCode>, ICriminalCod
 {
     public CriminalCodeRepository(CidadeAltaContext cidadeAltaContext) : base(cidadeAltaContext) { }
 
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-    }
-
     public CriminalCode? Get(Guid id)
     {
         return Get(x => x.Id == id, new []{ "Status" }).FirstOrDefault();
@@ -50,5 +45,10 @@ public class CriminalCodeRepository : BaseRepository<CriminalCode>, ICriminalCod
     public long GetCount()
     {
         return Get(x => true).Count();
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
     }
 }

@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text;
+using CidadeAlta.Api.Swagger;
 using CidadeAlta.Application.Application;
 using CidadeAlta.Application.AutoMapper;
 using CidadeAlta.Application.Interfaces;
@@ -29,6 +30,7 @@ builder.Services.AddSwaggerGen(x =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     x.IncludeXmlComments(xmlPath);
 
+    x.OperationFilter<SwaggerOperationFilter>();
     x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -39,21 +41,6 @@ builder.Services.AddSwaggerGen(x =>
         Description = "JWT Authorization header using the Bearer scheme." +
                       "\r\n\r\nEnter 'Bearer' [space] and then your token in the text input below." +
                       "\r\n\r\nExample: 'Bearer 1234'"
-    });
-
-    x.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
     });
 });
 

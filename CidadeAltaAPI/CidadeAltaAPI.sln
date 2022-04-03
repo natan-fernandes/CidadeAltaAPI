@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - CidadeAlta.Data", "3 - 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - CidadeAlta.Application", "1 - CidadeAlta.Application", "{CFA5C43E-7646-429E-AD3B-A6607315B07D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CidadeAlta.Application", "CidadeAlta.Application\CidadeAlta.Application.csproj", "{CF37B72A-531D-419C-B004-34F047156DBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CidadeAlta.Application", "CidadeAlta.Application\CidadeAlta.Application.csproj", "{CF37B72A-531D-419C-B004-34F047156DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
