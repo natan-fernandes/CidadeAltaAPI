@@ -48,7 +48,7 @@ public class CriminalCodeService : ICriminalCodeService
     public Task<CriminalCode?> Edit(CriminalCode criminalCode)
     {
         var dBmodel = _criminalCodeRepository.Get(criminalCode.Id);
-        if (dBmodel == null)
+        if (dBmodel is null)
             return Task.FromResult(dBmodel);
 
         var user = _userService.Get(_httpContextAccessor.HttpContext!.User.Identity!.Name!)!;
@@ -88,7 +88,7 @@ public class CriminalCodeService : ICriminalCodeService
     public Task<bool> Remove(Guid id)
     {
         var criminalCode = _criminalCodeRepository.Get(id);
-        return Task.FromResult(criminalCode != null 
+        return Task.FromResult(criminalCode is not null 
                                && _criminalCodeRepository.Remove(criminalCode));
     }
 

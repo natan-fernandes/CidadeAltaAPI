@@ -19,7 +19,7 @@ public class UserService : IUserService
     {
         password = HashPassword(password);
         var user = _userRepository.Get(userName, password);
-        if (user != null) //Ninguém precisa saber o hash da senha do usuário né?
+        if (user is not null) //Ninguém precisa saber o hash da senha do usuário né?
             user.Password = string.Empty;
 
         return user;
@@ -28,7 +28,7 @@ public class UserService : IUserService
     public User? Get(string userName)
     {
         var user = _userRepository.Get(userName);
-        if (user != null) //Ninguém precisa saber o hash da senha do usuário né?
+        if (user is not null) //Ninguém precisa saber o hash da senha do usuário né?
             user.Password = string.Empty;
 
         return user;
@@ -41,7 +41,7 @@ public class UserService : IUserService
 
         user.Password = HashPassword(user.Password);
 
-        var addedUsed = _userRepository.Get(user.UserName) == null
+        var addedUsed = _userRepository.Get(user.UserName) is null
             ? _userRepository.Add(user)
             : null;
 

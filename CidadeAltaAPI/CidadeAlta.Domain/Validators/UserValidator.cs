@@ -14,6 +14,6 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("O usuário precisa ter uma senha.")
-            .MinimumLength(5).WithMessage("A senha do usuário precisa ter pelo menos 5 caracteres");
+            .MinimumLength(5).WithMessage("A senha do usuário precisa ter pelo menos 5 caracteres.");
     }
 }

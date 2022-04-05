@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Transactions;
+using AutoMapper;
 using CidadeAlta.Application.DTOs;
 using CidadeAlta.Application.Interfaces;
 using CidadeAlta.Application.Responses;
@@ -23,6 +24,7 @@ public class UserAppService : BaseAppService, IUserAppService
 
     public Task<ApiResponse<UserDto>> Add(UserDto user)
     {
+        using var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted });
         var savedUser = _userService.Add(Mapper.Map<User>(user));
 
         var response = new ApiResponse<UserDto>
@@ -31,9 +33,10 @@ public class UserAppService : BaseAppService, IUserAppService
             Errors = savedUser?.Errors
         };
 
-        if (response.Dto != null) //Ninguém precisa saber o hash da senha do usuário né?
+        if (response.Dto is not null) //Ninguém precisa saber o hash da senha do usuário né?
             response.Dto.Password = string.Empty;
 
+        ts.Complete();
         return Task.FromResult(response);
     }
 

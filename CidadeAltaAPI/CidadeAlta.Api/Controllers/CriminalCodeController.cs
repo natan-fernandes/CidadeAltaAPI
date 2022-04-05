@@ -45,7 +45,7 @@ namespace CidadeAlta.Api.Controllers
         public async Task<ActionResult<CriminalCodeDto?>> Get(Guid id)
         {
             var criminalCode = await _criminalCodeAppService.Get(id);
-            if (criminalCode != null)
+            if (criminalCode is not null)
                 return Ok(criminalCode); //Não tem o found?
             return NotFound(criminalCode);
         }
@@ -83,7 +83,7 @@ namespace CidadeAlta.Api.Controllers
         public async Task<ActionResult<ApiResponse<CriminalCodeDto>>> Edit(CriminalCodeDto model)
         {
             var response = await _criminalCodeAppService.Edit(model);
-            if (response?.Dto == null)
+            if (response?.Dto is null)
                 return NotFound(null);
             if (response.IsValid)
                 return Ok(response.Dto);

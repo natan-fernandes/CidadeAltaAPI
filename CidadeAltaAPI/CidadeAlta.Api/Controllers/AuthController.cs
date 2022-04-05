@@ -31,7 +31,7 @@ namespace CidadeAlta.Api.Controllers
         public async Task<ActionResult<dynamic>> Login([FromBody] UserDto model)
         {
             var user = await _userAppService.Get(model.UserName, model.Password);
-            if (user == null)
+            if (user is null)
                 return NotFound("Usuário ou senha inválidos");
 
             var token = _authAppService.GenerateToken(user);
@@ -57,7 +57,7 @@ namespace CidadeAlta.Api.Controllers
         public async Task<ActionResult<dynamic>> Register([FromBody] UserDto model)
         {
             var response = await _userAppService.Add(model);
-            if (response.Dto == null)
+            if (response.Dto is null)
                 return Conflict("Usuário já registrado");
             if (response.IsValid)
                 return Created(string.Empty, response.Dto);

@@ -21,7 +21,7 @@ public class CriminalCodeRepository : BaseRepository<CriminalCode>, ICriminalCod
 
         return Get(x => true, new []{ "Status" })
 
-            .Where(x => filter == null 
+            .Where(x => filter is null 
                         || x.Name.Contains(filter, ignoreCase)
                         || x.Description.Contains(filter, ignoreCase)
                         || x.Id.ToString().Contains(filter, ignoreCase)

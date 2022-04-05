@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Transactions;
+using AutoMapper;
 using CidadeAlta.Application.DTOs;
 using CidadeAlta.Application.Interfaces;
 using CidadeAlta.Application.Responses;
@@ -19,6 +20,7 @@ public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
 
     public async Task<ApiResponse<CriminalCodeDto>> Add(CriminalCodeDto criminalCodeDto)
     {
+        using var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted });
         var criminalCode = await _criminalCodeService.Add(Mapper.Map<CriminalCode>(criminalCodeDto));
 
         var response = new ApiResponse<CriminalCodeDto>
@@ -26,12 +28,14 @@ public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
             Dto = Mapper.Map<CriminalCodeDto>(criminalCode),
             Errors = criminalCode.Errors
         };
-        
+
+        ts.Complete();
         return response;
     }
     
     public async Task<ApiResponse<CriminalCodeDto>?> Edit(CriminalCodeDto criminalCodeDto)
     {
+        using var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted });
         var criminalCode = await _criminalCodeService.Edit(Mapper.Map<CriminalCode>(criminalCodeDto));
 
         var response = new ApiResponse<CriminalCodeDto>
@@ -40,12 +44,16 @@ public class CriminalCodeAppService : BaseAppService, ICriminalCodeAppService
             Errors = criminalCode?.Errors
         };
 
+        ts.Complete();
         return response;
     }
 
     public Task<bool> Remove(Guid id)
     {
-        return _criminalCodeService.Remove(id);
+        using var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted });
+        var result = _criminalCodeService.Remove(id);
+        ts.Complete();
+        return result;
     }
 
     public async Task<CriminalCodeDto?> Get(Guid id)
