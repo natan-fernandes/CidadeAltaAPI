@@ -16,4 +16,5 @@ Execute o projeto `CidadeAlta.API`
 - Swagger UI com suporte ao JWT
 
 # Arquitetura:
-Domain Driven Design
+ - Domain Driven Design
+- Onion architecture
